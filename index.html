@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>💞 Mi Galería Para Ti 💞</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      padding: 30px;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #ffe4e1, #ffc0cb, #ffb6c1, #ff99aa);
+      background-size: 400% 400%;
+      animation: gradientFlow 10s ease infinite;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .heart {
+      position: fixed;
+      color: rgba(255, 105, 180, 0.7);
+      font-size: 22px;
+      animation: floatUp 7s linear forwards;
+      z-index: 0;
+      filter: drop-shadow(0 0 3px rgba(255, 182, 193, 0.8));
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) scale(0.8); opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+    }
+
+    h1 {
+      text-shadow: 0 0 10px #fff, 0 0 20px #ff8da1, 0 0 30px #ff5f7e;
+      animation: brillar 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes brillar {
+      0% { text-shadow: 0 0 10px #fff, 0 0 20px #ffb6c1, 0 0 30px #ff8da1; }
+      100% { text-shadow: 0 0 20px #fff, 0 0 40px #ff69b4, 0 0 60px #ff1493; }
+    }
+
+    .foto-card {
+      border: none;
+      box-shadow: 0 8px 18px rgba(255,182,193,0.5);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: aparecer 1s ease forwards;
+    }
+
+    @keyframes aparecer {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .foto-card:hover {
+      transform: scale(1.06);
+      box-shadow: 0 10px 22px rgba(255,105,180,0.5);
+    }
+
+    .foto-card img {
+      height: 320px;
+      object-fit: cover;
+      width: 100%;
+      transition: transform 0.5s ease, filter 0.4s ease;
+    }
+
+    .foto-card img:hover {
+      transform: scale(1.08);
+      filter: brightness(1.1);
+    }
+
+    .card-body {
+      flex-grow: 1;
+      background: #fff5f7;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      padding: 15px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      box-shadow: 0 3px 10px rgba(255, 182, 193, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.07);
+      box-shadow: 0 4px 15px rgba(255, 105, 180, 0.5);
+    }
+
+    .btn-opinion {
+      background: linear-gradient(45deg, #ff99bb, #ff5fa9);
+      color: white;
+      padding: 8px 18px;
+    }
+
+    #verPresentacion {
+      background: linear-gradient(45deg, #ff7cb3, #ff4f94);
+      color: white;
+      padding: 12px 30px;
+      font-size: 18px;
+      box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
+      margin-bottom: 20px;
+    }
+
+    #musicBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #ff85a1;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 65px;
+      height: 65px;
+      font-size: 28px;
+      box-shadow: 0 5px 15px rgba(255, 105, 180, 0.5);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      animation: pulse 1s infinite;
+      cursor: pointer;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); background-color: #ff92aa; }
+    }
+
+    #mensajeAmor {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      background: rgba(255, 182, 193, 0.95);
+      color: white;
+      padding: 15px 25px;
+      border-radius: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+      z-index: 999;
+    }
+
+    #mensajeAmor.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #mensajeFinal {
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      font-size: 36px;
+      color: #ff0077;
+      text-shadow: 2px 2px 10px #fff;
+      background: rgba(255, 240, 245, 0.9);
+      padding: 20px 40px;
+      border-radius: 25px;
+      box-shadow: 0 4px 25px rgba(255, 105, 180, 0.4);
+      opacity: 0;
+      transition: all 1s ease;
+      z-index: 2000;
+    }
+
+    #mensajeFinal.visible {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    @keyframes zoomSlide {
+      0% { transform: scale(1.2) translateX(50px); opacity: 0; filter: brightness(0.7); }
+      50% { transform: scale(1.05) translateX(0); opacity: 1; filter: brightness(1); }
+      100% { transform: scale(1) translateX(-50px); opacity: 0.9; filter: brightness(1.1); }
+    }
+
+    #player-container {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      z-index: 1000;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container text-center">
+    <h1 class="mb-4 text-danger">💞 Mi Galería Para Ti 💞</h1>
+    <button id="verPresentacion" class="btn">🎬 Ver presentación automática</button>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4" id="galeria"></div>
+  </div>
+
+  <div class="modal fade" id="modalImagen" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-transparent border-0">
+        <div class="modal-body p-0">
+          <img id="imagenModal" src="" class="img-fluid w-100 rounded shadow-lg" style="border-radius:20px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="mensajeFinal">💞 Eres mi historia favorita 💞</div>
+  <button id="musicBtn">🎵</button>
+  <div id="mensajeAmor">💖 Eres mi melodía favorita 💖</div>
+
+  <div id="player-container">
+    <div id="player"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <script>
+    const fotos = [
+      {nombre: "Tu sonrisa 😍", url: "img/img1.png", opinion: "Tu sonrisa ilumina mi día ☀️"},
+      {nombre: "Siempre tú ❤️", url: "img/img2.png", opinion: "Ese día fue perfecto, como tú 💕"},
+      {nombre: "Mirada que enamora 💘", url: "img/img3.png", opinion: "Me pierdo en tu mirada 💕"},
+      {nombre: "Carita linda ✨", url: "img/img4.png", opinion: "No hay puesta de sol más linda que tú 🌇"},
+      {nombre: "Simplemente tú ❤️", url: "img/img5.png", opinion: "Eres mi mejor recuerdo 🌈"},
+      {nombre: "Momento mágico ✨", url: "img/img6.png", opinion: "Cada momento contigo es un regalo 🎁"},
+    ];
+
+    const galeria = document.getElementById("galeria");
+    fotos.forEach((foto, index) => {
+      const col = document.createElement("div");
+      col.className = "col";
+      col.style.animationDelay = `${index * 0.2}s`;
+      col.innerHTML = `
+        <div class="card foto-card h-100">
+          <img src="${foto.url}" alt="${foto.nombre}" data-bs-toggle="modal" data-bs-target="#modalImagen" data-img="${foto.url}">
+          <div class="card-body">
+            <h5 class="card-title text-danger">${foto.nombre}</h5>
+            <button class="btn btn-opinion" onclick="mostrarOpinion(${index})">💬 Opinión</button>
+            <p class="opinion" id="opinion-${index}" style="display:none;">${foto.opinion}</p>
+          </div>
+        </div>
+      `;
+      galeria.appendChild(col);
+    });
+
+    function mostrarOpinion(index) {
+      const op = document.getElementById("opinion-" + index);
+      op.style.display = op.style.display === "block" ? "none" : "block";
+    }
+
+    const modal = new bootstrap.Modal(document.getElementById("modalImagen"));
+    const imagenModal = document.getElementById("imagenModal");
+
+    document.getElementById("galeria").addEventListener("click", e => {
+      if (e.target.tagName === "IMG") {
+        imagenModal.src = e.target.getAttribute("data-img");
+      }
+    });
+
+    // 🎵 Música automática
+    let player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('player', {
+        height: '60',
+        width: '100',
+        videoId: 'XeCe6uOl6zw', // ID de "Si Supieras"
+        playerVars: { autoplay: 1, loop: 1, playlist: 'XeCe6uOl6zw', controls:0 },
+        events: {
+          onReady: e => {
+            e.target.mute();
+            e.target.playVideo();
+            document.body.addEventListener('click', function activarSonido() {
+              e.target.unMute(); // suena al primer clic
+              document.body.removeEventListener('click', activarSonido);
+            });
+            document.getElementById("mensajeAmor").classList.add("visible");
+          }
+        }
+      });
+    }
+
+    // 🎞️ Presentación automática
+    document.getElementById("verPresentacion").addEventListener("click", async () => {
+      const mensajeFinal = document.getElementById("mensajeFinal");
+      for (let i = 0; i < fotos.length; i++) {
+        imagenModal.src = fotos[i].url;
+        modal.show();
+        imagenModal.style.animation = "zoomSlide 3.2s ease";
+        await new Promise(r => setTimeout(r, 3300));
+      }
+      modal.hide();
+      mensajeFinal.classList.add("visible");
+      setTimeout(() => mensajeFinal.classList.remove("visible"), 5000);
+    });
+
+    // 💖 Corazones flotantes
+    setInterval(() => {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.textContent = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (Math.random() * 25 + 10) + "px";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }, 700);
+  </script>
+</body>
+</html>
